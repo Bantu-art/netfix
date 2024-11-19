@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to NetFix{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <section class="hero">
+        <h1>Find the Right Service for Your Home</h1>
+        <p>Connect with trusted professionals for all your home service needs</p>
+    </section>
+
+    <section class="popular-services">
+        <h2>Most Popular Services</h2>
+        <div class="services-grid">
+            {% for service in popular_services %}
+                <div class="service-card">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description|truncatewords:30 }}</p>
+                    <p><strong>Field:</strong> {{ service.field }}</p>
+                    <p><strong>Price:</strong> ${{ service.price_per_hour }}/hour</p>
+                    <a href="{% url 'service-detail' service.pk %}" class="btn">View Details</a>
+                </div>
+            {% empty %}
+                <p>No services available yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
