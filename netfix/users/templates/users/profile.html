@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - NetFix{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Profile</h2>
+    <div class="profile-info">
+        <p><strong>Username:</strong> {{ profile_user.username }}</p>
+        <p><strong>Email:</strong> {{ profile_user.email }}</p>
+        {% if profile_user.is_company %}
+            <p><strong>Field of Work:</strong> {{ profile_user.field_of_work }}</p>
+            <h3>My Services</h3>
+            <div class="services-grid">
+                {% for service in profile_user.services.all %}
+                    <div class="service-card">
+                        <h4>{{ service.name }}</h4>
+                        <p>{{ service.description|truncatewords:30 }}</p>
+                        <p><strong>Field:</strong> {{ service.field }}</p>
+                        <p><strong>Price:</strong> ${{ service.price_per_hour }}/hour</p>
+                        <a href="{% url 'service-detail' service.pk %}">View Details</a>
+                    </div>
+                {% empty %}
+                    <p>No services created yet.</p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p><strong>Date of Birth:</strong> {{ profile_user.date_of_birth }}</p>
+            <h3>Requested Services</h3>
+            <div class="requested-services">
+                {% for request in profile_user.service_requests.all %}
+                    <div class="service-request-card">
+                        <h4>{{ request.service.name }}</h4>
+                        <p><strong>Field:</strong> {{ request.service.field }}</p>
+                        <p><strong>Company:</strong> {{ request.service.company.username }}</p>
+                        <p><strong>Total Cost:</strong> ${{ request.total_cost }}</p>
+                        <p><strong>Requested:</strong> {{ request.requested_at|date }}</p>
+                        <a href="{% url 'service-detail' request.service.pk %}">View Service</a>
+                    </div>
+                {% empty %}
+                    <p>No services requested yet.</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
