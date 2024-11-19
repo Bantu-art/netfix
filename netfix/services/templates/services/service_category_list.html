@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{{ category }} Services - NetFix{% endblock %}
+
+{% block content %}
+<div class="services-container">
+    <h2>{{ category }} Services</h2>
+    <div class="categories-nav">
+        <a href="{% url 'service-list' %}" class="category-link">All Services</a>
+        {% for field, display_name in service_fields %}
+            <a href="{% url 'service-category' field %}" class="category-link {% if category == field %}active{% endif %}">
+                {{ display_name }}
+            </a>
+        {% endfor %}
+    </div>
+    
+    <div class="services-grid">
+        {% for service in services %}
+            <div class="service-card">
+                <h3>{{ service.name }}</h3>
+                <p>{{ service.description|truncatewords:30 }}</p>
+                <p><strong>Field:</strong> {{ service.field }}</p>
+                <p><strong>Price:</strong> ${{ service.price_per_hour }}/hour</p>
+                <p><strong>Provider:</strong> {{ service.company.username }}</p>
+                <a href="{% url 'service-detail' service.pk %}" class="btn">View Details</a>
+            </div>
+        {% empty %}
+            <p>No services available in this category.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
