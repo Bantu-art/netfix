@@ -1,14 +1,38 @@
 {% extends 'base.html' %}
-
 {% block title %}Register as Company - NetFix{% endblock %}
-
 {% block content %}
 <div class="form-container">
-    <h2>Register as Company</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+    <div class="register-wrapper">
+        <div class="register-image">
+            <h3>Join NetFix</h3>
+            <p>Expand your business, connect with customers, and grow your service network with NetFix.</p>
+        </div>
+        <div class="register-form">
+            <h2>Company Registration</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-grid">
+                    {% for field in form %}
+                        <div class="form-group {% if forloop.first %}{% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                                <ul class="errorlist">
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="register-btn">Register</button>
+                <div class="form-footer">
+                    Already have an account? 
+                    <a href="{% url 'login' %}">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
