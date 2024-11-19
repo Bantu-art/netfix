@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Request Service - {{ service.name }} - NetFix{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Request Service: {{ service.name }}</h2>
+    
+    <div class="service-summary">
+        <p><strong>Service:</strong> {{ service.name }}</p>
+        <p><strong>Provider:</strong> {{ service.company.username }}</p>
+        <p><strong>Price per hour:</strong> ${{ service.price_per_hour }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn">Submit Request</button>
+    </form>
+</div>
+{% endblock %}
