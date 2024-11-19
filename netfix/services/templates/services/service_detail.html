@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ service.name }} - NetFix{% endblock %}
+{% block content %}
+<div class="card service-details">
+    <h1 class="page-header">{{ service.name }}</h1>
+
+    <div class="service-info">
+        <p class="description">{{ service.description }}</p>
+        
+        <div class="service-meta">
+            <div>
+                <strong>Field:</strong> {{ service.field }}
+            </div>
+            <div>
+                <strong>Price:</strong> ${{ service.price_per_hour }}/hour
+            </div>
+            <div>
+                <strong>Provider:</strong> 
+                <a href="{% url 'company-profile' service.company.pk %}">{{ service.company.username }}</a>
+            </div>
+            <div>
+                <strong>Created:</strong> {{ service.created_at|date }}
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_authenticated and not user.is_company %}
+    <div class="request-service mt-4">
+        <h2 class="section-header">Request this Service</h2>
+        <form method="post" action="{% url 'service-request' service.pk %}">
+            {% csrf_token %}
+            {{ request_form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
