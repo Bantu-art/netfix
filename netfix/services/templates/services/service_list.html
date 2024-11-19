@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Services - NetFix{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>All Services</h1>
+</div>
+
+<div class="category-filters">
+    {% for field, display_name in service_fields %}
+    <a href="{% url 'service-category' field %}" class="btn btn-secondary">{{ display_name }}</a>
+    {% endfor %}
+</div>
+
+<div class="service-card">
+    {% for service in services %}
+    <div class="card">
+        <h3 class="section-header">{{ service.name }}</h3>
+        <p>{{ service.description|truncatewords:30 }}</p>
+        <div class="service-meta">
+            <span>Field: {{ service.field }}</span>
+            <span>Price: ${{ service.price_per_hour }}/hour</span>
+            <span>Provider: {{ service.company.username }}</span>
+        </div>
+        <a href="{% url 'service-detail' service.pk %}" class="btn btn-primary mt-4">View Details</a>
+    </div>
+    {% empty %}
+    <p class="text-center">No services available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
