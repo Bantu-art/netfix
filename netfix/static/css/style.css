@@ -318,7 +318,7 @@ footer {
 }
 
 .login-image, .register-image {
-  background-color: var(--secondary-color);
+  background-color: #2980b9;
   color: white;
   display: flex;
   flex-direction: column;
@@ -445,3 +445,4 @@ footer {
       grid-template-columns: 1fr;
   }
 }
+

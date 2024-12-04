@@ -15,8 +15,7 @@
                 <strong>Price:</strong> ${{ service.price_per_hour }}/hour
             </div>
             <div>
-                <strong>Provider:</strong> 
-                <a href="{% url 'company-profile' service.company.pk %}">{{ service.company.username }}</a>
+                <strong>Provider:</strong> {{ service.company.username }}
             </div>
             <div>
                 <strong>Created:</strong> {{ service.created_at|date }}
