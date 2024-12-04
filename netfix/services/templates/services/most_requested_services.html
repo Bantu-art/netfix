@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Most Requested Services</h1>
+    
+    {% if most_requested_services %}
+        <div class="row">
+            {% for service in most_requested_services %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p class="card-text">
+                                <strong>Field:</strong> {{ service.get_field_display }}<br>
+                                <strong>Price per Hour:</strong> ${{ service.price_per_hour }}<br>
+                                <strong>Total Requests:</strong> {{ service.total_requests }}
+                            </p>
+                            <a href="{% url 'service-detail' service.pk %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No services have been requested yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
