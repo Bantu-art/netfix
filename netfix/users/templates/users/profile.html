@@ -122,7 +122,8 @@
                             <span><strong>Field:</strong> {{ service.field }}</span>
                             <span><strong>Price:</strong> ${{ service.price_per_hour }}/hour</span>
                         </div>
-                        <a href="#" class="service-link">View Details</a>
+                <a href="{% url 'service-list' %}">View services</a>
+                        <!-- <a href="#" class="service-link">View Details</a> -->
                     </div>
                 {% empty %}
                     <p class="empty-state">No services created yet.</p>
