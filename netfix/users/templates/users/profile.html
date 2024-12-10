@@ -122,8 +122,8 @@
                             <span><strong>Field:</strong> {{ service.field }}</span>
                             <span><strong>Price:</strong> ${{ service.price_per_hour }}/hour</span>
                         </div>
-                <a href="{% url 'service-list' %}">View services</a>
-                        <!-- <a href="#" class="service-link">View Details</a> -->
+                <!-- <a href="{% url 'service-list' %}">View services</a> -->
+                        <a href="{% url 'service-list' %}" class="service-link">View Services</a>
                     </div>
                 {% empty %}
                     <p class="empty-state">No services created yet.</p>
@@ -139,7 +139,6 @@
                             <p><strong>Total Cost:</strong> ${{ request.total_cost }}</p>
                             <p><strong>Requested:</strong> {{ request.requested_at|date }}</p>
                         </div>
-                        <!-- <a href="#" class="service-link">View Service</a> -->
                     </div>
                 {% empty %}
                     <p class="empty-state">No services requested yet.</p>

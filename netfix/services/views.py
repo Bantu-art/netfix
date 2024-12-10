@@ -8,23 +8,32 @@ from .forms import ServiceForm, ServiceRequestForm
 from django.db.models import Count
 from django.views.generic import ListView
 
-class MostRequestedServicesView(ListView):
+class MostRequestedServicesView(LoginRequiredMixin, ListView):
     model = Service
     template_name = 'services/most_requested_services.html'
     context_object_name = 'most_requested_services'
-
+    
     def get_queryset(self):
-        # Count the number of requests for each service and order by request count
-        return Service.objects.annotate(
+        """
+        Retrieve only services that have been requested,
+        ordered by their request count.
+        """
+        return Service.objects.filter(requests__isnull=False).annotate(
             request_count=Count('requests')
         ).order_by('-request_count')
 
     def get_context_data(self, **kwargs):
+        """
+        Enhance context with additional service request information
+        """
         context = super().get_context_data(**kwargs)
+        
         # Add total request count for each service
         for service in context['most_requested_services']:
             service.total_requests = service.requests.count()
+        
         return context
+
 
 class ServiceListView(ListView):
     model = Service
