@@ -20,17 +20,25 @@ class ServiceForm(forms.ModelForm):
             raise forms.ValidationError("You can only create services in your field of work.")
         return field
 
+    def clean_price_per_hour(self):
+        price = self.cleaned_data.get('price_per_hour')
+        if price > 1000:
+            raise forms.ValidationError("Price per hour cannot exceed 1000.")
+        return price
+
 class ServiceRequestForm(forms.ModelForm):
     class Meta:
         model = ServiceRequest
         fields = ['address', 'hours_needed']
         widgets = {
             'address': forms.Textarea(attrs={'rows': 3}),
-            'hours_needed': forms.NumberInput(attrs={'min': 1})
+            'hours_needed': forms.NumberInput(attrs={'min': 1, 'max': 8760})
         }
 
-    def clean_service_hours(self):
+    def clean_hours_needed(self):
         hours = self.cleaned_data.get('hours_needed')
         if hours < 1:
             raise forms.ValidationError("Service hours must be at least 1.")
+        if hours > 8760:
+            raise forms.ValidationError("Service hours cannot exceed 8760 (1 year).")
         return hours
