@@ -2,7 +2,24 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 class User(AbstractUser):
+    """
+    Custom user model extending Django's AbstractUser.
+    
+    Attributes:
+        is_company (BooleanField): Flag indicating if user is a service provider
+        date_of_birth (DateField): User's date of birth
+        field_of_work (CharField): Service category specialization
+        groups (ManyToManyField): Custom related name for user groups
+        user_permissions (ManyToManyField): Custom related name for user permissions
+        
+    Notes:
+        - field_of_work choices include various service categories
+        - 'All in One' providers can offer any service category
+        - Custom related_names avoid clashes with auth.User
+    """
+    
     is_company = models.BooleanField(default=False)
     date_of_birth = models.DateField(null=True, blank=True)
     field_of_work = models.CharField(
@@ -25,7 +42,6 @@ class User(AbstractUser):
         blank=True
     )
 
-    # Add related_name to avoid clash with auth.User
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
@@ -33,6 +49,7 @@ class User(AbstractUser):
         related_name='custom_user_set',
         related_query_name='custom_user'
     )
+    
     user_permissions = models.ManyToManyField(
         'auth.Permission',
         verbose_name='user permissions',
@@ -42,4 +59,14 @@ class User(AbstractUser):
     )
 
     def is_valid_service_field(self, field):
+        """
+        Check if user can provide service in specified field.
+        
+        Args:
+            field (str): Service category to validate
+            
+        Returns:
+            bool: True if user can provide service in field,
+                 False otherwise
+        """
         return self.field_of_work == 'All in One' or self.field_of_work == field
