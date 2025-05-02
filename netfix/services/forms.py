@@ -1,12 +1,32 @@
 from django import forms
 from .models import Service, ServiceRequest
 
+
 class ServiceForm(forms.ModelForm):
+    """
+    Form for creating and updating Service instances.
+    
+    Attributes:
+        Meta: Model form configuration class
+        
+    Notes:
+        - Restricts field choices based on user's field_of_work
+        - Validates price_per_hour is under 1000
+    """
+    
     class Meta:
         model = Service
         fields = ['name', 'description', 'field', 'price_per_hour']
 
     def __init__(self, user, *args, **kwargs):
+        """
+        Initialize form with user-specific field restrictions.
+        
+        Args:
+            user: User instance creating the service
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
+        """
         super().__init__(*args, **kwargs)
         if user.field_of_work != 'All in One':
             self.fields['field'].initial = user.field_of_work
@@ -14,6 +34,15 @@ class ServiceForm(forms.ModelForm):
             self.fields['field'].choices = [(user.field_of_work, user.field_of_work)]
 
     def clean_field(self):
+        """
+        Validate that service field matches user's field of work.
+        
+        Returns:
+            str: Validated field value
+            
+        Raises:
+            ValidationError: If field doesn't match user's field_of_work
+        """
         field = self.cleaned_data.get('field')
         user = self.initial.get('user')
         if user and user.field_of_work != 'All in One' and field != user.field_of_work:
@@ -21,12 +50,33 @@ class ServiceForm(forms.ModelForm):
         return field
 
     def clean_price_per_hour(self):
+        """
+        Validate that price per hour is reasonable.
+        
+        Returns:
+            Decimal: Validated price value
+            
+        Raises:
+            ValidationError: If price exceeds 1000
+        """
         price = self.cleaned_data.get('price_per_hour')
         if price > 1000:
             raise forms.ValidationError("Price per hour cannot exceed 1000.")
         return price
 
+
 class ServiceRequestForm(forms.ModelForm):
+    """
+    Form for creating service requests.
+    
+    Attributes:
+        Meta: Model form configuration class
+        
+    Notes:
+        - Address field uses a 3-row textarea
+        - Hours needed is restricted between 1 and 8760 (1 year)
+    """
+    
     class Meta:
         model = ServiceRequest
         fields = ['address', 'hours_needed']
@@ -36,6 +86,15 @@ class ServiceRequestForm(forms.ModelForm):
         }
 
     def clean_hours_needed(self):
+        """
+        Validate that requested hours are within acceptable range.
+        
+        Returns:
+            int: Validated hours value
+            
+        Raises:
+            ValidationError: If hours are less than 1 or exceed 8760
+        """
         hours = self.cleaned_data.get('hours_needed')
         if hours < 1:
             raise forms.ValidationError("Service hours must be at least 1.")
