@@ -30,7 +30,7 @@ NetFix is a Django-based web application that connects homeowners with service p
 
 1. Clone the repository:
 ```sh
-git clone https://github.com/yourusername/netfix.git
+git clone https://github.com/Bantu-art/netfix.git
 cd netfix
 ```
 
@@ -49,22 +49,27 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-4. Install dependencies from requirements.txt:
+4. Change into the netfix project directory (where requirements.txt is located):
+```sh
+cd netfix
+```
+
+5. Install dependencies from requirements.txt:
 ```sh
 pip3 install -r requirements.txt
 ```
 
-5. Apply database migrations:
+6. Apply database migrations:
 ```sh
 python3 manage.py migrate
 ```
 
-6. Create a superuser:
+7. Create a superuser:
 ```sh
 python3 manage.py createsuperuser
 ```
 
-7. Run the development server:
+8. Run the development server:
 ```sh
 python3 manage.py runserver
 ```
