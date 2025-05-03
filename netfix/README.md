@@ -30,7 +30,7 @@ NetFix is a Django-based web application that connects homeowners with service p
 
 1. Clone the repository:
 ```sh
-git clone https://github.com/yourusername/netfix.git
+git clone https://github.com/Bantu-art/netfix.git
 cd netfix
 ```
 
