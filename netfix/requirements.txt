@@ -8,6 +8,5 @@ django-widget-tweaks==1.4.12
 django-bootstrap5==23.3
 whitenoise==6.5.0
 gunicorn==21.2.0
-psycopg2-binary==2.9.6
 django-debug-toolbar==4.1.0
 django-filter==23.2
