@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Welcome to NetFix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="home-container">
@@ -15,15 +20,35 @@
             {% for service in popular_services %}
                 <div class="service-card">
                     <h3>{{ service.name }}</h3>
-                    <p>{{ service.description|truncatewords:30 }}</p>
-                    <p><strong>Field:</strong> {{ service.field }}</p>
-                    <p><strong>Price:</strong> ${{ service.price_per_hour }}/hour</p>
+                    <p>{{ service.description|truncatewords:20 }}</p>
+                    <div class="service-info">
+                        <span class="field-tag">{{ service.field }}</span>
+                        <span class="price-tag">${{ service.price_per_hour }}/hour</span>
+                    </div>
                     <a href="{% url 'service-detail' service.pk %}" class="btn">View Details</a>
                 </div>
             {% empty %}
-                <p>No services available yet.</p>
+                <div class="service-card">
+                    <p>No services available yet.</p>
+                </div>
             {% endfor %}
         </div>
     </section>
 </div>
+
+<script>
+$(document).ready(function() {
+    const grid = $('.services-grid');
+    grid.css({
+        'display': 'flex',
+        'flex-wrap': 'wrap',
+        'justify-content': 'center'
+    });
+    
+    const cards = $('.service-card');
+    cards.css({
+        'margin': '1rem'
+    });
+});
+</script>
 {% endblock %}
