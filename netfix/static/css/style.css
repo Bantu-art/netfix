@@ -2,10 +2,10 @@
     --primary-color: #2c3e50;
     --secondary-color: #34495e;
     --accent-color: #3498db;
-    --text-color: #ecf0f1;
-    --background-color: #1a1a1a;
-    --nav-background: #2c3e50;
-    --footer-background: #1a252f;
+    --text-color: #8c8e8f;
+    --background-color: #8cafb8;
+    --nav-background: #000000;
+    --footer-background: #000000;
 }
 
 /* Body and Layout */
@@ -18,6 +18,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Navbar */
